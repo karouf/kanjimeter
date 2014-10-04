@@ -37,7 +37,7 @@ end
 
 post '/authed' do
   response.set_cookie('kanjinator', {
-      :expires => Time.now + 2400,
+      :expires => Time.now + 3600 * 24 * 30,
       :value => params['apikey'],
       :path => '/'
     })
