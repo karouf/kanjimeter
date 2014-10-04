@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require_relative 'models/page'
+require_relative 'lib/kanjinator/analyzer'
 
 enable :sessions
 
@@ -56,6 +57,7 @@ post '/admin/pages/create' do
   if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
     @page = Page.new
     @page.url = params['url']
+    @page.kanji = Kanjinator::Analyzer.new(params['url']).kanji
     if @page.save
       redirect '/admin/pages'
     else
