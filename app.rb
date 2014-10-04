@@ -1,4 +1,6 @@
 require 'sinatra'
+require 'sinatra/activerecord'
+require_relative 'models/page'
 
 enable :sessions
 
@@ -43,5 +45,28 @@ post '/authed' do
 end
 
 get '/admin' do
-  'Admin area'
+  erb :'admin/index'
+end
+
+get '/admin/pages/new' do
+  erb :'admin/pages/new'
+end
+
+post '/admin/pages/create' do
+  if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
+    @page = Page.new
+    @page.url = params['url']
+    if @page.save
+      redirect '/admin/pages'
+    else
+      erb :'admin/pages/new'
+    end
+  else
+    erb :'admin/pages/new'
+  end
+end
+
+get '/admin/pages' do
+  @pages = Page.all
+  erb :'admin/pages/index'
 end

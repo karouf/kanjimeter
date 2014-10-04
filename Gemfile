@@ -7,6 +7,9 @@ gem 'httparty'
 gem 'capybara'
 gem 'poltergeist'
 gem 'sinatra'
+gem 'sinatra-activerecord'
+gem 'sqlite3'
+gem 'rake'
 
 group :dev do
   gem 'shotgun'
