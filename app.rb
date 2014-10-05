@@ -5,6 +5,7 @@ require 'httparty'
 require_relative 'models/page'
 require_relative 'models/user'
 require_relative 'lib/kanjinator/analyzer'
+require_relative 'lib/kanjinator/matcher'
 
 enable :sessions
 
@@ -15,7 +16,7 @@ before do
     pass
   else
     if request.cookies.has_key? 'kanjinator'
-      if current_user = User.find_by_apikey(request.cookies['kanjinator'])
+      if self.current_user = User.find_by_apikey(request.cookies['kanjinator'])
         pass
       else
         redirect '/auth'
@@ -49,7 +50,8 @@ helpers do
 end
 
 get '/' do
-  "YO: #{request.cookies['kanjinator']}"
+  @pages = Kanjinator::Matcher.match(current_user, Page.all)
+  erb :index
 end
 
 get '/auth' do
@@ -72,7 +74,7 @@ post '/authed' do
         known << item['character']
       end
     end
-    user.kanji = known.join
+    user.kanji = known
 
     if user.save
       response.set_cookie('kanjinator', {
