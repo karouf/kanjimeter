@@ -1,6 +1,9 @@
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'httparty'
+
 require_relative 'models/page'
+require_relative 'models/user'
 require_relative 'lib/kanjinator/analyzer'
 
 enable :sessions
@@ -8,14 +11,31 @@ enable :sessions
 before do
   protected! if %w(admin).include? request.path_info.split('/')[1]
   pass if %w(auth authed).include? request.path_info.split('/')[1]
-  if request.cookies.has_key? 'kanjinator'
+  if current_user
     pass
   else
-    redirect '/auth'
+    if request.cookies.has_key? 'kanjinator'
+      if current_user = User.find_by_apikey(request.cookies['kanjinator'])
+        pass
+      else
+        redirect '/auth'
+      end
+    else
+      redirect '/auth'
+    end
   end
 end
 
 helpers do
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+
+  def current_user=(user)
+    @current_user = user
+    session[:user_id] = user.nil? ? user : user.id
+  end
+
   def protected!
     return if authorized?
     headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
@@ -37,12 +57,36 @@ get '/auth' do
 end
 
 post '/authed' do
-  response.set_cookie('kanjinator', {
-      :expires => Time.now + 3600 * 24 * 30,
-      :value => params['apikey'],
-      :path => '/'
-    })
-  redirect '/'
+  api_response = HTTParty.get("https://www.wanikani.com/api/user/#{params[:apikey]}/kanji")
+  if api_response.code == 200
+    user = User.new
+
+    json = JSON.parse(api_response.body)
+
+    user.apikey = params[:apikey]
+    user.name = json['user_information']['username']
+
+    known = []
+    json['requested_information'].each do |item|
+      if item['user_specific'] && %w(guru master enlightened burned).include?(item['user_specific']['srs'])
+        known << item['character']
+      end
+    end
+    user.kanji = known.join
+
+    if user.save
+      response.set_cookie('kanjinator', {
+          :expires => Time.now + 3600 * 24 * 30,
+          :value => params['apikey'],
+          :path => '/'
+        })
+      redirect '/'
+    else
+      erb :auth
+    end
+  else
+    erb :auth
+  end
 end
 
 get '/admin' do
