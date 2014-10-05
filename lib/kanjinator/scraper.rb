@@ -15,8 +15,7 @@ module Kanjinator
 
     def get
       visit(@url)
-      doc = Nokogiri::HTML(page.html)
-      doc.css('body')
+      Nokogiri::HTML(page.html)
     end
   end
 end

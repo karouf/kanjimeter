@@ -101,9 +101,7 @@ end
 
 post '/admin/pages/create' do
   if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
-    @page = Page.new
-    @page.url = params['url']
-    @page.kanji = Kanjinator::Analyzer.new(params['url']).kanji
+    @page = Kanjinator::Analyzer.analyze(params['url'])
     if @page.save
       redirect '/admin/pages'
     else
