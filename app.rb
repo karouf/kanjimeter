@@ -7,24 +7,8 @@ require_relative 'models/user'
 require_relative 'lib/kanjinator/analyzer'
 require_relative 'lib/kanjinator/matcher'
 
-enable :sessions
-
 before do
   protected! if %w(admin).include? request.path_info.split('/')[1]
-  pass if %w(auth authed).include? request.path_info.split('/')[1]
-  if current_user
-    pass
-  else
-    if request.cookies.has_key? 'kanjinator'
-      if self.current_user = User.find_by_apikey(request.cookies['kanjinator'])
-        pass
-      else
-        redirect '/auth'
-      end
-    else
-      redirect '/auth'
-    end
-  end
 end
 
 helpers do
@@ -50,7 +34,6 @@ helpers do
 end
 
 get '/' do
-  @pages = Kanjinator::Matcher.match(current_user, Page.all)
   erb :index
 end
 
@@ -115,4 +98,12 @@ end
 get '/admin/pages' do
   @pages = Page.all
   erb :'admin/pages/index'
+end
+
+post '/api/match' do
+  content_type :json
+  request.body.rewind
+  json = JSON.parse(request.body.read)
+  pages = Kanjinator::Matcher.match(json['kanji'].split(''), Page.all)
+  pages.to_json
 end

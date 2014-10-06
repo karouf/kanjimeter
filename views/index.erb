@@ -1,9 +1,9 @@
-<% if @pages.empty? %>
-  <p>No pages!</p>
-<% else %>
-  <ul>
-    <% @pages.sort_by{|k,v| v}.reverse.each do |page, rating| %>
-    <li><a href="<%= page.url %>"><%= page.title %></a> - <%= (rating * 100).round %>%</li>
-  <% end %>
-  </ul>
-<% end %>
+<html>
+  <head>
+  </head>
+  <body>
+    <ul id="pages"></ul>
+
+    <script src="/js/kanjinator.js"></script>
+  </body>
+</html>
