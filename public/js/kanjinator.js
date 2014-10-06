@@ -41,15 +41,38 @@ function parseResult(data) {
 function onWaniKaniResult(data) {
   document.body.removeChild(resscript);
   user = parseResult(data);
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('cached', Date.now());
   document.getElementsByTagName('body')[0].dispatchEvent(authEvent);
 };
 
-function authenticate() {
-  apikey = get_apikey_from_storage();
-  if(!apikey) {
-    apikey = get_apikey_from_client();
+function authExpired() {
+  if((Date.now() - localStorage.getItem('cached')) > 86400000) {
+    return true;
+  } else {
+    return false;
   }
-  get_user(apikey);
+};
+
+function userCached() {
+  if(localStorage.getItem('cached') != null) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+function authenticate() {
+  if(authExpired() || !userCached()) {
+    apikey = get_apikey_from_storage();
+    if(!apikey) {
+      apikey = get_apikey_from_client();
+    }
+    get_user(apikey);
+  } else {
+    user = JSON.parse(localStorage.getItem('user'));
+    document.getElementsByTagName('body')[0].dispatchEvent(authEvent);
+  }
 };
 
 function setup() {
