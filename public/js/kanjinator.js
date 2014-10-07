@@ -87,6 +87,7 @@ function createPageNode(page) {
   a.setAttribute('href', page.url);
   a.innerText = page.title;
   a.classList.add('page__link');
+  a.target = '_blank';
   span = document.createElement('span');
   span.innerText = Math.round(page.rating * 100) + '%';
   span.classList.add('page__rating');
