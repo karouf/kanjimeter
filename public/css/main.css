@@ -124,11 +124,27 @@ body {
     padding-left: 10%;
     padding-right: 10%;
   }
+
+  .page__rating {
+    width: 13%;
+  }
+
+  .page__link {
+    width: 87%;
+  }
 }
 
 @media screen and (min-width: 950px) {
   .header, #pages li {
     padding-left: 20%;
     padding-right: 20%;
+  }
+
+  .page__rating {
+    width: 15%;
+  }
+
+  .page__link {
+    width: 85%;
   }
 }
