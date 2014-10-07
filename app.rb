@@ -105,5 +105,5 @@ post '/api/match' do
   request.body.rewind
   json = JSON.parse(request.body.read)
   pages = Kanjinator::Matcher.match(json['kanji'].split(''), Page.all)
-  pages.to_json
+  pages.sort_by{|p| p.rating}.reverse.to_json
 end

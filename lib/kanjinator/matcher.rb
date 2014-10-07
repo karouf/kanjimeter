@@ -14,6 +14,8 @@ module Kanjinator
     end
 
     class RatedPage
+      attr_reader :rating
+
       def initialize(page, rating)
         @url = page.url
         @title = page.title
