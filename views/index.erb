@@ -1,8 +1,33 @@
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Kanjimeter</title>
+    <meta name="description" content="Find online content that matches your kanji level on Wanikani">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/main.css"/>
   </head>
   <body>
-    <ul id="pages"></ul>
+    <header class="header">
+      <div class="title">
+        <h1>Kanjimeter</h1>
+        <p class="title__smartassline">Stuff you can read</p>
+      </div>
+      <div class="user">
+        <img class="user__gravatar"/>
+        <p class="user__level"></p>
+      </div>
+    </header>
+    <div class="content">
+      <ul id="pages"></ul>
+    </div>
+    <footer class="footer">
+      <p>Coded with 愛情 by <a href="http://renaudmarti.net">Renaud Martinet</a></p>
+      <p><a href="https://www.wanikani.com/community/people/karouf">karouf</a> on Wanikani forums</p>
+    </footer>
 
     <script src="/js/kanjinator.js"></script>
   </body>

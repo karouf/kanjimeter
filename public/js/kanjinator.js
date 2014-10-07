@@ -82,13 +82,16 @@ function setup() {
 
 function createPageNode(page) {
   li = document.createElement('li');
+  li.classList.add('page');
   a = document.createElement('a');
   a.setAttribute('href', page.url);
   a.innerText = page.title;
+  a.classList.add('page__link');
   span = document.createElement('span');
   span.innerText = Math.round(page.rating * 100) + '%';
-  li.appendChild(a);
+  span.classList.add('page__rating');
   li.appendChild(span);
+  li.appendChild(a);
   return li;
 };
 
@@ -116,5 +119,11 @@ function list_pages() {
   get_data(user);
 };
 
+function updateUserDetails() {
+  document.getElementsByClassName('user__gravatar')[0].src = 'https://www.gravatar.com/avatar/' + user.gravatar + '.jpg?s=200&timestamp=10062014&d=https://s3.amazonaws.com/s3.wanikani.com/default-avatar-300x300-20121121.png';
+  document.getElementsByClassName('user__level')[0].innerHTML = 'Level ' + user.level;
+};
+
 window.addEventListener("load", setup);
+window.addEventListener("authenticated", updateUserDetails);
 window.addEventListener("authenticated", list_pages);

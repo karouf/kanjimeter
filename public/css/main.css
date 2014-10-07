@@ -1,0 +1,134 @@
+body {
+  font-size: 1rem;
+  background-image: url(/images/bg.jpg);
+  padding: 0;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-attachment: fixed;
+}
+
+.content {
+  background-color: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+
+#pages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.page:nth-child(even) {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.page__rating {
+  width: 23%;
+  font-size: 1.5rem;
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+
+.page__link {
+  vertical-align: top;
+  display: inline-block;
+  width: 77%;
+  color: #78481E;
+  text-decoration: none;
+}
+
+.page__link:visited {
+  color: #999;
+}
+
+.content hr {
+  width: 70%;
+}
+
+.header {
+  color: #fff;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  text-shadow: 0 0 5px #000;
+  height: 6em;
+}
+
+.title {
+  float: left;
+}
+
+.title h1 {
+  margin: 0;
+}
+
+.title__smartassline {
+  margin: 0;
+  letter-spacing: 0.18em;
+}
+
+.user {
+  float: right;
+  position: relative;
+  top: 0.3em;
+}
+
+.user__gravatar {
+  height: 4em;
+  width: 4em;
+  border-radius: 2em;
+  box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
+}
+
+.user__level {
+  text-align: center;
+  position: relative;
+  bottom: 2.5em;
+}
+
+.footer {
+  color: #fff;
+  text-shadow: 0 0 5px #000;
+  text-align: center;
+  font-size: 0.8em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer a, .footer a:visited {
+  color: #ddd;
+  text-decoration: none;
+}
+
+[lang="ja"] {
+  font-family: "Meiryo","Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3","メイリオ","Osaka","MS PGothic","ＭＳ Ｐゴシック",sans-serif;
+}
+
+@media screen and (min-width: 651px) {
+  .header, #pages li {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+
+@media screen and (min-width: 950px) {
+  .header, #pages li {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
